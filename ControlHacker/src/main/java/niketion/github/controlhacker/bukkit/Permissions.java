@@ -7,6 +7,7 @@ public enum Permissions {
     PERMISSIONS_DENIED(Main.getInstance().format(Main.getInstance().getConfig().getString("permission-denied")));
 
     private String string;
+
     Permissions(String string) {
         this.string = string;
     }

@@ -49,7 +49,7 @@ public class CommandControlHacker implements CommandExecutor {
             return false;
         }
 
-        switch(strings[0]) {
+        switch (strings[0]) {
             case "top":
                 try {
                     Map<String, Comparable> variableMap = new HashMap<>();
@@ -77,7 +77,7 @@ public class CommandControlHacker implements CommandExecutor {
                 return true;
             case "setzone":
                 if (strings.length > 1) {
-                    switch(strings[1]) {
+                    switch (strings[1]) {
                         case "cheater":
                             setZone(commandSender.getName(), "cheater");
                             break;
@@ -95,13 +95,13 @@ public class CommandControlHacker implements CommandExecutor {
                 break;
             case "reload":
                 // The config is reloaded twice, as 1 does not work
-                for (int i=0; i<1;i++)
+                for (int i = 0; i < 1; i++)
                     main.reloadConfig();
-                commandSender.sendMessage(main.format(ChatColor.DARK_PURPLE+"Config successfully reload."));
+                commandSender.sendMessage(main.format(ChatColor.DARK_PURPLE + "Config successfully reload."));
                 break;
             case "stats":
                 if (strings.length > 1) {
-                    if (new File(main.getDataFolder().toString()+"/stats/"+strings[1]+".yml").exists()) {
+                    if (new File(main.getDataFolder().toString() + "/stats/" + strings[1] + ".yml").exists()) {
                         FileConfiguration fileConfiguration = new FileManager(strings[1], "stats").getConfig();
                         for (String message : main.getConfig().getStringList("stats-message")) {
                             commandSender.sendMessage(main.format(message.replaceAll("%value-1%", String.valueOf(fileConfiguration.getInt("all-controls")))
@@ -121,9 +121,9 @@ public class CommandControlHacker implements CommandExecutor {
                 }
             case "reset":
                 if (strings.length > 1) {
-                    if (new File(main.getDataFolder().toString()+"/stats/"+strings[1]+".yml").exists()) {
+                    if (new File(main.getDataFolder().toString() + "/stats/" + strings[1] + ".yml").exists()) {
                         new FileManager(strings[1], "stats").getConfigFile().delete();
-                        commandSender.sendMessage(main.format(commandFuctions.getString("stats-deleted").replaceAll("%player%",strings[1])));
+                        commandSender.sendMessage(main.format(commandFuctions.getString("stats-deleted").replaceAll("%player%", strings[1])));
                         return true;
                     } else {
                         commandSender.sendMessage(main.format(commandFuctions.getString("stats-not-found").replaceAll("%player%", strings[1])));
@@ -140,8 +140,9 @@ public class CommandControlHacker implements CommandExecutor {
 
     /**
      * Set zone of control (cheater/checker/end)
+     *
      * @param namePlayer - Name of player to get Location
-     * @param nameZone - Zone to set
+     * @param nameZone   - Zone to set
      */
     private void setZone(String namePlayer, String nameZone) {
         Player player = Bukkit.getPlayerExact(namePlayer);
@@ -160,11 +161,12 @@ public class CommandControlHacker implements CommandExecutor {
 
     /**
      * Get usage from config.yml
+     *
      * @param namePlayer - Name of player to send messages
      */
     private void getUsage(String namePlayer) {
         for (String usageCommand : main.getConfig().getStringList("usage-controlhacker"))
             Bukkit.getPlayerExact(namePlayer).sendMessage(main.format(usageCommand));
-        Bukkit.getPlayerExact(namePlayer).sendMessage(ChatColor.DARK_PURPLE+"Plugin developed by @Niketion");
+        Bukkit.getPlayerExact(namePlayer).sendMessage(ChatColor.DARK_PURPLE + "Plugin developed by @Niketion");
     }
 }

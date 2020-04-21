@@ -6,14 +6,9 @@ import niketion.github.controlhacker.bukkit.filemanager.FileManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class CommandFuctions {
 
@@ -30,13 +25,14 @@ public class CommandFuctions {
 
     /**
      * Check if player has permission from enum "Permissions"
-     * @param namePlayer - Name of player to check permission
+     *
+     * @param namePlayer  - Name of player to check permission
      * @param permissions - Permissions enum
      * @return boolean
      */
     boolean hasPermission(String namePlayer, Permissions permissions) {
         if (Bukkit.getPlayerExact(namePlayer).hasPermission(permissions.toString())) {
-           return true;
+            return true;
         } else {
             Bukkit.getPlayerExact(namePlayer).sendMessage(Permissions.PERMISSIONS_DENIED.toString());
             return false;
@@ -45,20 +41,22 @@ public class CommandFuctions {
 
     /**
      * Check if zone is set to location.yml
+     *
      * @param zone - Zone to check
      * @return boolean
      */
     boolean isSet(String zone) {
-        if (new FileManager("location", "locations").getConfig().getString(zone.toUpperCase()+".world") != null) {
+        if (new FileManager("location", "locations").getConfig().getString(zone.toUpperCase() + ".world") != null) {
             return true;
         } else {
-            Bukkit.broadcastMessage(ChatColor.DARK_PURPLE+zone.toUpperCase()+" location isn't set. (Please contact a admin /ch)");
+            Bukkit.broadcastMessage(ChatColor.DARK_PURPLE + zone.toUpperCase() + " location isn't set. (Please contact a admin /ch)");
             return false;
         }
     }
 
     /**
      * Get string from config.yml
+     *
      * @param path - Path input
      * @return String
      */
@@ -68,6 +66,7 @@ public class CommandFuctions {
 
     /**
      * Check if "commandSender" is a player
+     *
      * @param commandSender - CommandSender
      * @return boolean
      */
@@ -82,8 +81,9 @@ public class CommandFuctions {
 
     /**
      * Check if "namePlayer" is online
+     *
      * @param commandSender - To send message
-     * @param namePlayer - Player to find
+     * @param namePlayer    - Player to find
      * @return boolean
      */
     boolean foundPlayer(CommandSender commandSender, String namePlayer) {
@@ -97,8 +97,9 @@ public class CommandFuctions {
 
     /**
      * Check if commandSender and "namePlayer" is equal
+     *
      * @param commandSender - CommandSender
-     * @param namePlayer - Target
+     * @param namePlayer    - Target
      * @return boolean
      */
     boolean checkYourself(CommandSender commandSender, String namePlayer) {
@@ -113,34 +114,37 @@ public class CommandFuctions {
 
     /**
      * Check wether the player is already in check
+     *
      * @param commandSender - CommandSender
-     * @param targetName - Target
+     * @param targetName    - Target
      * @return
      */
     boolean alreadyInCheck(CommandSender commandSender, String targetName) {
-    	if (main.getInCheck().containsKey(targetName)) {
-    		commandSender.sendMessage(main.format(getString("is-already-in-check").replace("%player%", targetName)));
-    		return true;
-    	}
-    	return false;
+        if (main.getInCheck().containsKey(targetName)) {
+            commandSender.sendMessage(main.format(getString("is-already-in-check").replace("%player%", targetName)));
+            return true;
+        }
+        return false;
     }
-    
+
     /**
      * Get zone from location.yml
+     *
      * @param nameZone - Name of zone to get
      * @return Location
      */
     public Location getZone(String nameZone) {
         String nameZoneUpper = nameZone.toUpperCase();
         FileConfiguration fileConfiguration = new FileManager("location", "locations").getConfig();
-        return new Location(Bukkit.getWorld(fileConfiguration.getString(nameZoneUpper+".world")), fileConfiguration.getDouble(nameZoneUpper+".x"),
-                fileConfiguration.getDouble(nameZoneUpper+".y"), fileConfiguration.getDouble(nameZoneUpper+".z"),
-                (float) fileConfiguration.getDouble(nameZoneUpper+".yaw"), (float) fileConfiguration.getDouble(nameZoneUpper+".pitch"));
+        return new Location(Bukkit.getWorld(fileConfiguration.getString(nameZoneUpper + ".world")), fileConfiguration.getDouble(nameZoneUpper + ".x"),
+                fileConfiguration.getDouble(nameZoneUpper + ".y"), fileConfiguration.getDouble(nameZoneUpper + ".z"),
+                (float) fileConfiguration.getDouble(nameZoneUpper + ".yaw"), (float) fileConfiguration.getDouble(nameZoneUpper + ".pitch"));
     }
 
     /**
      * Finish a control
-     * @param target - Cheater
+     *
+     * @param target        - Cheater
      * @param commandSender - Checker
      */
     public void finishControl(Player target, CommandSender commandSender) {
@@ -152,14 +156,14 @@ public class CommandFuctions {
 
             // Teleport cheater to spawn
             try {
-            	target.teleport(getZone("end"));
-			} catch (NullPointerException e) {
-				target.teleport(target.getWorld().getSpawnLocation());
-			}
-            
+                target.teleport(getZone("end"));
+            } catch (NullPointerException e) {
+                target.teleport(target.getWorld().getSpawnLocation());
+            }
+
             // Disable fly
             target.setAllowFlight(false);
-            
+
             // Send Messages
             target.sendMessage(main.format(main.getConfig().getString("finish-cheater-message")));
             commandSender.sendMessage(main.format(main.getConfig().getString("finish-checker-message").replaceAll("%player%", target.getName())));
@@ -169,12 +173,13 @@ public class CommandFuctions {
                 // If version was changed or the client is a fork
                 try {
                     main.getTitle().sendTitle(target, "a", 1, 1, 1);
-                } catch (NullPointerException ignored) {}
+                } catch (NullPointerException ignored) {
+                }
             }
-            
+
             // Open FinishGui
             if (target.isOnline())
-            	main.getFinishGUI().openGui((Player) commandSender);
+                main.getFinishGUI().openGui((Player) commandSender);
         }
         // Close ControlGui inventory if still open
         target.closeInventory();

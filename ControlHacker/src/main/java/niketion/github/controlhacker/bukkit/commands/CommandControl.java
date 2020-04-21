@@ -2,11 +2,7 @@ package niketion.github.controlhacker.bukkit.commands;
 
 import niketion.github.controlhacker.bukkit.Main;
 import niketion.github.controlhacker.bukkit.Permissions;
-import org.bukkit.Bukkit;
-import org.bukkit.Effect;
-import org.bukkit.Location;
-import org.bukkit.Sound;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -38,9 +34,9 @@ public class CommandControl implements CommandExecutor {
             commandSender.sendMessage(main.format(commandFuctions.getString("usage-control")));
             return false;
         }
-        
+
         String targetName = strings[0];
-        
+
         // Check if commandSender and target is equal
         if (!commandFuctions.checkYourself(commandSender, targetName))
             return false;
@@ -50,8 +46,8 @@ public class CommandControl implements CommandExecutor {
             return false;
 
         if (commandFuctions.alreadyInCheck(commandSender, targetName))
-        	return false;
-        
+            return false;
+
         // Check if zones are set
         if (!commandFuctions.isSet("cheater") || !commandFuctions.isSet("checker"))
             return false;
@@ -70,9 +66,9 @@ public class CommandControl implements CommandExecutor {
         }
 
         // Clear previous chat
-        for (int i=0; i<150; i++)
+        for (int i = 0; i < 150; i++)
             target.sendMessage("");
-        
+
         // Send Messages
         commandSender.sendMessage(main.format(commandFuctions.getString("checker-start-message").replace("%player%", strings[0])));
 
@@ -87,31 +83,31 @@ public class CommandControl implements CommandExecutor {
 
         // Particles
         String effectName; // to bypass an annoying IDE error
-        if (Bukkit.getBukkitVersion().contains("1.7")){
-        	effectName = "MOBSPAWNER_FLAMES";
+        if (Bukkit.getBukkitVersion().contains("1.7")) {
+            effectName = "MOBSPAWNER_FLAMES";
         } else {
-        	effectName = "FLAME";
+            effectName = "FLAME";
         }
         Location targetLocation = target.getLocation();
         World targetWorld = targetLocation.getWorld();
         new BukkitRunnable() {
-			@Override
-			public void run() {
-				for (int i = 0; i < 360; i += 5) {
+            @Override
+            public void run() {
+                for (int i = 0; i < 360; i += 5) {
 //					targetLocation.setY(targetLocation.getY() + Math.cos(i)*5);
-		           	targetWorld.playEffect(targetLocation, Effect.valueOf(effectName), 51);
-		        }
-			}
-		}.runTaskAsynchronously(main);
-        
+                    targetWorld.playEffect(targetLocation, Effect.valueOf(effectName), 51);
+                }
+            }
+        }.runTaskAsynchronously(main);
+
         // Put checker and cheater to "inCheck" hashMap
         main.getInCheck().put(target.getName(), commandSender.getName());
 
         // Open the Control Gui (for the cheater)
         main.getControlGUI().openGui(target);
-        
+
         return true;
     }
-    
+
 
 }

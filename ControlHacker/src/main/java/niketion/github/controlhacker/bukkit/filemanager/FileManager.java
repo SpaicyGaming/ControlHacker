@@ -18,20 +18,22 @@ public class FileManager {
 
     /**
      * Set to config and save file
-     * @param path - Path
+     *
+     * @param path  - Path
      * @param value - Value
      */
     public void set(String path, Object value) {
         config.set(path, value);
-        try{
+        try {
             config.save(configFile);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     /**
      * Get configuration file
+     *
      * @return FileConfiguration
      */
     public FileConfiguration getConfig() {
@@ -40,38 +42,41 @@ public class FileManager {
 
     /**
      * Add to config and save file
-     * @param path - Path
+     *
+     * @param path  - Path
      * @param value - Value
      */
     public void add(String path, String value) {
         List<String> configList = getConfig().getStringList(path);
         configList.add(value);
         config.set(path, configList);
-        try{
+        try {
             config.save(configFile);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     /**
      * Remove to config and save file
-     * @param path - Path
+     *
+     * @param path  - Path
      * @param value - Value
      */
     public void remove(String path, String value) {
         List<String> configList = getConfig().getStringList(path);
         configList.remove(value);
         config.set(path, configList);
-        try{
+        try {
             config.save(configFile);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     /**
      * Get config file
+     *
      * @return File
      */
     public File getConfigFile() {

@@ -24,6 +24,7 @@ public class Main extends JavaPlugin {
 
     /**
      * Where it is saved the checker and the cheater
+     *
      * @key cheater's name
      * @value checker's name
      */
@@ -38,27 +39,30 @@ public class Main extends JavaPlugin {
      * The various command functions
      */
     private CommandFuctions commandFuctions = new CommandFuctions();
-    
+
     /**
      * Get /control gui
      */
     private ControlGUI controlGui;
+
     public ControlGUI getControlGUI() {
-    	return controlGui;
+        return controlGui;
     }
-    
+
     /**
      * Get /finish gui
      */
     private FinishGUI finishGui;
+
     public FinishGUI getFinishGUI() {
-    	return finishGui;
+        return finishGui;
     }
-    
+
     /**
      * The instance of main
      */
     private static Main instance;
+
     public static Main getInstance() {
         return instance;
     }
@@ -74,9 +78,9 @@ public class Main extends JavaPlugin {
         instance = this;
 
         // Information to console
-        consoleCommandSender.sendMessage(ChatColor.GREEN+"ControlHacker loading...");
-        consoleCommandSender.sendMessage(ChatColor.GREEN+"Server version detected: " + Bukkit.getBukkitVersion());
-        
+        consoleCommandSender.sendMessage(ChatColor.GREEN + "ControlHacker loading...");
+        consoleCommandSender.sendMessage(ChatColor.GREEN + "Server version detected: " + Bukkit.getBukkitVersion());
+
         // Setup version of title
         setupTitle();
 
@@ -86,7 +90,7 @@ public class Main extends JavaPlugin {
         // Create GUIs
         controlGui = new ControlGUI();
         finishGui = new FinishGUI();
-        
+
         // Registration of the events
         getServer().getPluginManager().registerEvents(new ListenerControlHacker(), this);
 
@@ -96,13 +100,13 @@ public class Main extends JavaPlugin {
         getCommand("finish").setExecutor(new CommandFinish());
 
         // Information to console
-        consoleCommandSender.sendMessage(ChatColor.GREEN+"ControlHacker enabled. Developed by @Niketion, v"+getDescription().getVersion());
+        consoleCommandSender.sendMessage(ChatColor.GREEN + "ControlHacker enabled. Developed by @Niketion, v" + getDescription().getVersion());
         if (!rightVersion()) {
-            consoleCommandSender.sendMessage(ChatColor.RED+"Title disabled, version server 1.7");
+            consoleCommandSender.sendMessage(ChatColor.RED + "Title disabled, version server 1.7");
         } else {
-            consoleCommandSender.sendMessage(ChatColor.GREEN+"Title enabled.");
+            consoleCommandSender.sendMessage(ChatColor.GREEN + "Title enabled.");
         }
-        
+
     }
 
     /**
@@ -134,28 +138,31 @@ public class Main extends JavaPlugin {
 
     /**
      * Translated message to chatcolor, with the character "&"
+     *
      * @param message - Messages to translate
      * @return String
      */
     public String format(String message) {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
-    
+
     /**
      * Colors the lore
+     *
      * @param lore - list of lore
      * @return
      */
     public List<String> colorLore(List<String> lore) {
-		List<String> coloredLore = new ArrayList<>();
-		for (String line : lore) {
-			coloredLore.add(format(line));
-		}
-		return coloredLore;
-	}
-    
+        List<String> coloredLore = new ArrayList<>();
+        for (String line : lore) {
+            coloredLore.add(format(line));
+        }
+        return coloredLore;
+    }
+
     /**
      * Check if version of server is 1.8+
+     *
      * @return boolean
      */
     public boolean rightVersion() {
@@ -165,6 +172,7 @@ public class Main extends JavaPlugin {
     /**
      * Setup version of title (NMS)
      * (if server is 1.8+)
+     *
      * @return boolean
      */
     private boolean setupTitle() {
@@ -211,6 +219,7 @@ public class Main extends JavaPlugin {
 
     /**
      * Where it is saved the checker and the cheater (getter)
+     *
      * @key cheater
      * @value checker
      */
@@ -220,6 +229,7 @@ public class Main extends JavaPlugin {
 
     /**
      * Get right version of title
+     *
      * @return Title
      */
     public Title getTitle() {
