@@ -4,7 +4,7 @@
 
     <groupId>io.spaicygaming.github</groupId>
     <artifactId>controlhacker</artifactId>
-    <version>v5.2</version>
+    <version>5.2</version>
     <packaging>jar</packaging>
 
     <name>ControlHacker</name>
@@ -13,10 +13,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-
-
 	<build>
-        <finalName>ControlHacker-${project.version}</finalName>
+        <finalName>ControlHacker-v${project.version}</finalName>
 
         <resources>
             <resource>
@@ -42,6 +40,7 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
     </repositories>
+
 	<dependencies>
 		<dependency>
             <groupId>org.spigotmc</groupId>
@@ -98,7 +97,6 @@
 			<version>1.0</version>
 			<systemPath>${basedir}/lib/craftbukkit-1.8-R0.1-SNAPSHOT-latest.jar</systemPath>
 		</dependency>
-
     </dependencies>
 
 </project>

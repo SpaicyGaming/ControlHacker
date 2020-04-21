@@ -26,8 +26,8 @@ public class Main extends JavaPlugin {
 
     /**
      * Where it is saved the checker and the cheater
-     * @key cheater
-     * @value checker
+     * @key cheater's name
+     * @value checker's name
      */
     private HashMap<String, String> inCheck = new HashMap<>();
 

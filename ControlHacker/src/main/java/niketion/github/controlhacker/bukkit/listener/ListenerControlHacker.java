@@ -57,29 +57,36 @@ public class ListenerControlHacker implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+
         // Cheater
-    	if (main.getInCheck().containsKey(event.getPlayer().getName())) {
-            new FileManager("playerquit", "playerquit").add("list", event.getPlayer().getName());
+    	if (main.getInCheck().containsKey(player.getName())) {
+            String cheaterName = player.getName();
+
+            new FileManager("playerquit", "playerquit").add("list", cheaterName);
             // Notify the entire staff that a player under control has come out
-            new CommandFuctions().finishControl(event.getPlayer(), Bukkit.getPlayerExact(main.getInCheck().get(event.getPlayer().getName())));
+            new CommandFuctions().finishControl(player, Bukkit.getPlayerExact(main.getInCheck().get(cheaterName)));
             
             // Remove the player from the list of players who can close the "control gui"
-            if (main.getControlGUI().getCanCloseGui().contains(event.getPlayer()))
-            	main.getControlGUI().getCanCloseGui().remove(event.getPlayer());
+            if (main.getControlGUI().getCanCloseGui().contains(player))
+            	main.getControlGUI().getCanCloseGui().remove(player);
             
             if (main.getConfig().getBoolean("command-quit-from-control.enabled")) {
                 for (String command : main.getConfig().getStringList("command-quit-from-control.commands")) {
-                    main.getServer().dispatchCommand(Bukkit.getConsoleSender(), command.replaceAll("%player%", event.getPlayer().getName()));
+                    main.getServer().dispatchCommand(Bukkit.getConsoleSender(), command.replace("%player%", cheaterName));
                 }
             }
 
             for (World worlds : Bukkit.getWorlds())
                 for (Player players : worlds.getPlayers())
                     if (players.hasPermission(Permissions.CONTROL.toString()))
-                        players.sendMessage(main.format(main.getConfig().getString("cheater-is-quit")).replaceAll("%player%", event.getPlayer().getName()));
+                        players.sendMessage(main.format(main.getConfig().getString("cheater-is-quit")).replace("%player%", cheaterName));
+
+            // Remove checker from control
+            main.getInCheck().remove(cheaterName);
         }
     	// Checker
-        else if (main.getInCheck().containsValue(event.getPlayer().getName())) {
+        else if (main.getInCheck().containsValue(player.getName())) {
         	Player cheater = Bukkit.getPlayerExact(getKeyFromValue(main.getInCheck(), event.getPlayer().getName()));
         	new CommandFuctions().finishControl(cheater, main.getServer().getConsoleSender());
         }
@@ -148,7 +155,7 @@ public class ListenerControlHacker implements Listener {
 
     /**
      * Compact for click event
-     * @param nameChecker - Name of checker
+     * @param checker - Checker player
      * @param target - Cheater
      * @param option - "clean/admission-refusal/hack"
      * @param numberConfig - "third/first/second"

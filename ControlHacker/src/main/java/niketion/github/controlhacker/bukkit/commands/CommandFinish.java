@@ -47,7 +47,7 @@ public class CommandFinish implements CommandExecutor {
             return false;
         }
 
-        commandFuctions.finishControl(Bukkit.getPlayerExact(strings[0]), (Player) commandSender);
+        commandFuctions.finishControl(Bukkit.getPlayerExact(strings[0]), commandSender);
         return true;
     }
 }
