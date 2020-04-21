@@ -8,10 +8,8 @@ import niketion.github.controlhacker.bukkit.listener.ListenerControlHacker;
 import niketion.github.controlhacker.bukkit.title.*;
 import niketion.github.controlhacker.bukkit.util.ControlGUI;
 import niketion.github.controlhacker.bukkit.util.FinishGUI;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.World;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -113,27 +111,25 @@ public class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         // When the plugin is disabled, it remove all from the control
-        // (I use this loop for 1.9+ version support)
-        for (World worlds : getServer().getWorlds())
-            for (Player players : worlds.getPlayers())
-                if (getInCheck().containsKey(players.getName())) {
-                    if (!getServer().getBukkitVersion().contains("1.7")) {
-                        getTitle().sendTitle(players, "a", 1, 1, 1);
-                    }
-
-                    // Teleport cheater to spawn
-                    players.teleport(commandFuctions.getZone("end"));
-
-                    // Disable fly
-                    players.setAllowFlight(false);
-
-                    players.sendMessage(format(getConfig().getString("finish-cheater-message")));
-                    Bukkit.getConsoleSender().sendMessage(format(getConfig().getString("finish-checker-message").replaceAll("%player%", players.getName())));
+        for (Player players : getServer().getOnlinePlayers())
+            if (getInCheck().containsKey(players.getName())) {
+                if (!getServer().getBukkitVersion().contains("1.7")) {
+                    getTitle().sendTitle(players, "a", 1, 1, 1);
                 }
-        
+
+                // Teleport cheater to spawn
+                players.teleport(commandFuctions.getZone("end"));
+
+                // Disable fly
+                players.setAllowFlight(false);
+
+                players.sendMessage(format(getConfig().getString("finish-cheater-message")));
+                Bukkit.getConsoleSender().sendMessage(format(getConfig().getString("finish-checker-message").replaceAll("%player%", players.getName())));
+            }
+
         // Clear the list of players who can close the "control gui"
         if (controlGui != null)
-        	getControlGUI().getCanCloseGui().clear();
+            getControlGUI().getCanCloseGui().clear();
     }
 
     /**
